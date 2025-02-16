@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-export function useGenerateStoryAndImage(message: string) {
-  const [story, setStory] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+export function useGenerateStoryAndImage(userPrompt: string, storyType: string) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const generateStoryAndImage = async () => {
-    console.log('entered')
     setLoading(true);
 
     try {
+      console.log("Fetching story and image...");
       const [storyResponse, imageResponse] = await Promise.all([
-        axios.post('http://localhost:9090/generate/text', { message }),
-        axios.post('http://localhost:9090/generate/image', { message }),
+        axios.post('http://localhost:9090/generate/text', {
+          userText: userPrompt,
+          storyType: storyType,
+        }),
+        axios.post('http://localhost:9090/generate/image', { userPrompt: userPrompt }),
       ]);
-    console.log(message)
-
-      setStory(storyResponse.data.story);
-      setImageUrl(imageResponse.data.imageUrl);
+      const story = storyResponse.data.story;
+      const imageUrl = imageResponse.data.imageUrl;
+      return { story, imageUrl };
+      
     } catch (err) {
       setError('Something went wrong while generating the story or image.');
       console.error(err);
@@ -27,5 +28,5 @@ export function useGenerateStoryAndImage(message: string) {
       setLoading(false);
     }
   };
-  return { story, imageUrl, loading, error, generateStoryAndImage };
+  return { loading, error, generateStoryAndImage };
 }

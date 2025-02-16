@@ -5,17 +5,9 @@ import { InputAdornment } from "@mui/material";
 import { useGenerateStoryAndImage } from "./hooks/useGenerateStoryAndImage";
 
 function App() {
-  const [inputValue, setInputValue] = useState('');
-
-  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setInputValue(event.target.value);
-    
-
-  };
-
-  const handleSubmit = () => {
-    console.log(inputValue);
-  };
+  const [message, setMessage] = useState('');
+  const { story,imageUrl, loading, error, generateStoryAndImage } = useGenerateStoryAndImage(message);
+//
   return (
     <div
       style={{
@@ -42,12 +34,11 @@ function App() {
         <h2> Subject of the Story</h2>
       </div>
       <TextField
-        placeholder="Write here what you want to happen in your story"
-        multiline
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Write your story idea here"
         rows={4}
-        variant="outlined"
-        value={inputValue} 
-        onChange={handleChange}
+        multiline
         sx={{
           backgroundColor: "white",
           width: "50%",
@@ -80,7 +71,22 @@ function App() {
         //   ),
         // }}
       />
-       <button onClick={handleSubmit}>Submit</button>
+       <button onClick={generateStoryAndImage} disabled={loading}>{loading ? 'Generating...' : 'Generate Story and Image'}</button>
+       {error && <p style={{ color: 'red' }}>{error}</p>}
+       
+       {story && (
+        <div>
+          <h3>Generated Story:</h3>
+          <p> {story} </p>
+        </div>
+       )}
+
+       {imageUrl && (
+        <div>
+          <h3>Generated image:</h3>
+          <img src={imageUrl} alt="Generated"/>
+        </div>
+       )}
     </div>
   );
 }

@@ -10,14 +10,15 @@ export function useGenerateStoryAndImage(userPrompt: string, storyType: string) 
 
     try {
       console.log("Fetching story and image...");
+      const API_URL = process.env.REACT_APP_API_URL || "http://localhost:9090";
       const storyResponse = await (
-        axios.post('http://localhost:9090/generate/text', {
+        axios.post(`${API_URL}/generate/text`, {
           userPrompt: userPrompt,
           storyType: storyType,
         }));
         const storyPages = storyResponse.data.storyPages;
 
-        const imageResponse = await axios.post('http://localhost:9090/generate/image', {
+        const imageResponse = await axios.post(`${API_URL}/generate/image`, {
         userPrompt: userPrompt,
       });
       console.log(imageResponse)

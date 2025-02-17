@@ -19,12 +19,13 @@ h2 {
 }
 
 .theme-img {
-  width: 200px;
+  width: 80%;
   max-width: 200px;
   height: auto;
   object-fit: cover;
   border-radius: 8px;
   transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  overflow: auto;
 }
 
 .theme-img:hover {
@@ -40,7 +41,7 @@ h2 {
 }
 
 /* Adjust layout for smaller screens */
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
   .theme-img {
     max-width: 120px; /* Smaller size for mobile screens */
   }

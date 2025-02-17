@@ -26,6 +26,7 @@ function MainPage() {
       <div
         style={{
           width: "100vw",
+          minWidth:"1000px",
           height: "100vh",
           backgroundColor: "#F2EBB5",
           display: "flex",
@@ -71,7 +72,7 @@ function MainPage() {
       <TextField
         value={userPrompt}
         onChange={(e) => setUserPrompt(e.target.value)}
-        placeholder="Write your story idea here"
+        placeholder="Write your story idea here (min. 50 characters)" 
         rows={4}
         multiline
         sx={{
@@ -139,13 +140,22 @@ function MainPage() {
           marginTop: "20px",
           borderRadius: "10px",
           backgroundColor: "#f7c120",
+          "&:hover": {
+            backgroundColor: "#e0a800",
+          },
+          "&.Mui-disabled": {
+            backgroundColor: "#f7c120",
+            color: "#FFF",
+            cursor: "not-allowed",
+            opacity:0.5
+          },
         }}
         onClick={handleGenerate}
         disabled={userPrompt.length < 50}
       >
-        {loading ? "Generating..." : "GENERATE STORY"}
+        {"GENERATE STORY"}
       </Button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p style={{ color: "black" }}>{error}</p>}
     </div>
   );
 }

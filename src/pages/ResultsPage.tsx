@@ -23,6 +23,7 @@ function ResultsPage() {
       style={{
         width: "100vw",
         height: "100vh",
+        minWidth: "400px",
         backgroundColor: "#F2EBB5",
         display: "flex",
         alignItems: "center",
@@ -52,9 +53,13 @@ function ResultsPage() {
               flexDirection: "column",
               justifyContent: "center",
               textAlign: "left",
+              borderRadius: "10px",
             }}
           >
-            <Typography variant="body1" sx={{ color: "black" }}>
+            <Typography
+              variant="body1"
+              sx={{ color: "black", overflow: "scroll" }}
+            >
               {storyPages[currentPage]
                 .replace(/\*\*Title:.*?\*\*/, "")
                 .replace(/\*\*(.*?)\*\*/, "")
@@ -65,20 +70,22 @@ function ResultsPage() {
 
           <Box
             sx={{
-              width: "50%",
+              width: "50%", // Adjust width as needed
+              height: "100%", // Ensures it's a vertical rectangle
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               backgroundColor: "#EEE",
+              overflow: "hidden", // Prevents overflow of the image
+              padding:0
             }}
           >
             <img
               src={imageUrl}
               alt={"Story Illustration"}
               style={{
-                maxWidth: "100%",
-                maxHeight: "100%",
-                borderRadius: "5px",
+                height: "100%",
+                width: "100%",
                 objectFit: "cover",
               }}
             />

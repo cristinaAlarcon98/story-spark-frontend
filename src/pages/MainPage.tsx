@@ -26,7 +26,7 @@ function MainPage() {
       <div
         style={{
           width: "100vw",
-          minWidth:"1000px",
+          minWidth:"400px",
           height: "100vh",
           backgroundColor: "#F2EBB5",
           display: "flex",

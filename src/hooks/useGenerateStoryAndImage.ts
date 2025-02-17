@@ -10,16 +10,19 @@ export function useGenerateStoryAndImage(userPrompt: string, storyType: string) 
 
     try {
       console.log("Fetching story and image...");
-      const [storyResponse, imageResponse] = await Promise.all([
+      const storyResponse = await (
         axios.post('http://localhost:9090/generate/text', {
-          userText: userPrompt,
+          userPrompt: userPrompt,
           storyType: storyType,
-        }),
-        axios.post('http://localhost:9090/generate/image', { userPrompt: userPrompt }),
-      ]);
-      const story = storyResponse.data.story;
+        }));
+        const storyPages = storyResponse.data.storyPages;
+
+        const imageResponse = await axios.post('http://localhost:9090/generate/image', {
+        userPrompt: userPrompt,
+      });
+      console.log(imageResponse)
       const imageUrl = imageResponse.data.imageUrl;
-      return { story, imageUrl };
+      return { storyPages, imageUrl };
       
     } catch (err) {
       setError('Something went wrong while generating the story or image.');

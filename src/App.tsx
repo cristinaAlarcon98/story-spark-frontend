@@ -1,8 +1,8 @@
 import React from "react";
+import "./styles.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./pages/MainPage.component";
-import ResultsPage from "./pages/ResultsPage.component";
-import "./styles.css"; // Ensure this is at the top of App.js
+import MainPage from "./pages/MainPage";
+import ResultsPage from "./pages/ResultsPage";
 
 
 

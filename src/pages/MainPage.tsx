@@ -4,45 +4,44 @@ import { Button, CircularProgress, InputAdornment, Modal } from "@mui/material";
 import { useGenerateStoryAndImage } from "../hooks/useGenerateStoryAndImage";
 import { useNavigate } from "react-router-dom";
 
-
 function MainPage() {
-    const [userPrompt, setUserPrompt] = useState("");
-    const [storyType, setStoryType] = useState("");
-    const { loading, error, generateStoryAndImage } = useGenerateStoryAndImage(userPrompt, storyType);
-    const navigate = useNavigate(); // For navigation
+  const [userPrompt, setUserPrompt] = useState("");
+  const [storyType, setStoryType] = useState("");
+  const { loading, error, generateStoryAndImage } = useGenerateStoryAndImage(userPrompt,storyType);
+  const navigate = useNavigate();
   
-    const handleGenerate = async () => {
-      const result = await generateStoryAndImage();
-  
-      if (result) {
-          const { story,imageUrl} = result;
-          console.log(story, imageUrl);
-          navigate("/results", { state: { story: story, imageUrl: imageUrl } });
-      }
+  const handleGenerate = async () => {
+    const result = await generateStoryAndImage();
+    if (result) {
+      const { storyPages, imageUrl } = result;
+      console.log(storyPages, imageUrl);
+      navigate("/results", {
+        state: { storyPages: storyPages, imageUrl: imageUrl },
+      });
+    }
   };
-  
 
-    if (loading) {
-        return (
-          <div
-            style={{
-              width: "100vw",
-              height: "100vh",
-              backgroundColor: "#282c34",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              flexDirection: "column",
-            }}
-          >
-            <CircularProgress style={{ color: "white" }} size={80} />
-            <p style={{ marginTop: "20px", fontSize: "20px" }}>Generating your story...</p>
-          </div>
-        );
-      }
-
-
+  if (loading) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "#F2EBB5",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "white",
+          flexDirection: "column",
+        }}
+      >
+        <CircularProgress sx={{ color: "#f7c120" }} />
+        <h2 style={{ marginTop: "20px", fontSize: "20px" }}>
+          GENERATING YOUR STORY...
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -108,25 +107,31 @@ function MainPage() {
         <h1>2</h1>
         <h2> Personalise your story</h2>
       </div>
- 
 
-<div style={{ display: "flex", justifyContent: "space-around", width: "50%" }}>
-        {["animalsTheme", "superheroesTheme", "educationalTheme"].map((theme) => (
-          <img
-            key={theme}
-            className={`theme-img ${storyType === theme ? "selected" : ""}`}
-            src={`/assets/${theme}.png`}
-            alt={theme}
-            loading="lazy"
-            style={{
-              cursor: "pointer",
-              border: storyType === theme ? "3px solid blue" : "none",
-            }}
-            onClick={() => setStoryType(theme)}
-          />
-        ))}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          width: "50%",
+        }}
+      >
+        {["animalsTheme", "superheroesTheme", "educationalTheme"].map(
+          (theme) => (
+            <img
+              key={theme}
+              className={`theme-img ${storyType === theme ? "selected" : ""}`}
+              src={`/assets/${theme}.png`}
+              alt={theme}
+              loading="lazy"
+              style={{
+                cursor: "pointer",
+                border: storyType === theme ? "3px solid blue" : "none",
+              }}
+              onClick={() => setStoryType(theme)}
+            />
+          )
+        )}
       </div>
-
 
       <Button
         variant="contained"
@@ -135,14 +140,12 @@ function MainPage() {
           borderRadius: "10px",
           backgroundColor: "#f7c120",
         }}
-        
         onClick={handleGenerate}
-        disabled={loading}
+        disabled={userPrompt.length < 50}
       >
         {loading ? "Generating..." : "GENERATE STORY"}
       </Button>
       {error && <p style={{ color: "red" }}>{error}</p>}
-
     </div>
   );
 }

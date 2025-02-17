@@ -5,13 +5,17 @@ import { Button, Box, Typography } from "@mui/material";
 function ResultsPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { storyPages, imageUrl } = location.state || {}
+  const { storyPages, imageUrl } = location.state || {};
   const [currentPage, setCurrentPage] = useState(0);
   const numPages = storyPages?.length || 0;
   const firstPage = storyPages?.[0] || "";
-  const titleMatch = firstPage.match(/\*\*Title:(.*?)\*\*/) || firstPage.match(/\*\*(.*?)\*\*/);
+  const titleMatch =
+    firstPage.match(/\*\*Title:(.*?)\*\*/) ||
+    firstPage.match(/\*\*(.*?)\*\*/) ||
+    firstPage.match(/###\s*(.*?):/);
   const title = titleMatch ? titleMatch[1].trim() : "Untitled Story";
-  const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, numPages - 1));
+  const nextPage = () =>
+    setCurrentPage((prev) => Math.min(prev + 1, numPages - 1));
   const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
 
   return (
@@ -54,6 +58,7 @@ function ResultsPage() {
               {storyPages[currentPage]
                 .replace(/\*\*Title:.*?\*\*/, "")
                 .replace(/\*\*(.*?)\*\*/, "")
+                .replace(/###\s*.*?:/, "")
                 .trim()}
             </Typography>
           </Box>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import { Button, CircularProgress, InputAdornment, Modal } from "@mui/material";
+import { Button, CircularProgress} from "@mui/material";
 import { useGenerateStoryAndImage } from "../hooks/useGenerateStoryAndImage";
 import { useNavigate } from "react-router-dom";
 

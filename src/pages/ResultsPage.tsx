@@ -70,13 +70,13 @@ function ResultsPage() {
 
           <Box
             sx={{
-              width: "50%", // Adjust width as needed
-              height: "100%", // Ensures it's a vertical rectangle
+              width: "50%", 
+              height: "100%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               backgroundColor: "#EEE",
-              overflow: "hidden", // Prevents overflow of the image
+              overflow: "hidden",
               padding:0
             }}
           >

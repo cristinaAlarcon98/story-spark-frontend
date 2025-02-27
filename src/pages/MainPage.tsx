@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import { Button, CircularProgress} from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useGenerateStoryAndImage } from "../hooks/useGenerateStoryAndImage";
 import { useNavigate } from "react-router-dom";
 
 function MainPage() {
   const [userPrompt, setUserPrompt] = useState("");
   const [storyType, setStoryType] = useState("");
-  const { loading, error, generateStoryAndImage } = useGenerateStoryAndImage(userPrompt,storyType);
+  const { loading, error, generateStoryAndImage } = useGenerateStoryAndImage(
+    userPrompt,
+    storyType
+  );
   const navigate = useNavigate();
-  
+
   const handleGenerate = async () => {
     const result = await generateStoryAndImage();
     if (result) {
@@ -26,7 +29,7 @@ function MainPage() {
       <div
         style={{
           width: "100vw",
-          minWidth:"400px",
+          minWidth: "400px",
           height: "100vh",
           backgroundColor: "#F2EBB5",
           display: "flex",
@@ -72,7 +75,7 @@ function MainPage() {
       <TextField
         value={userPrompt}
         onChange={(e) => setUserPrompt(e.target.value)}
-        placeholder="Write your story idea here (min. 50 characters)" 
+        placeholder="Write your story idea here (min. 50 characters)"
         rows={4}
         multiline
         sx={{
@@ -114,24 +117,36 @@ function MainPage() {
           display: "flex",
           justifyContent: "space-around",
           width: "50%",
+          textAlign: "center",
         }}
       >
-        {["animalsTheme", "superheroesTheme", "educationalTheme"].map(
-          (theme) => (
+        {[
+          { id: "animalsTheme", label: "Animals" },
+          { id: "superheroesTheme", label: "Superheroes" },
+          { id: "educationalTheme", label: "Educational" },
+        ].map(({ id, label }) => (
+          <div
+            key={id}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <img
-              key={theme}
-              className={`theme-img ${storyType === theme ? "selected" : ""}`}
-              src={`/assets/${theme}.png`}
-              alt={theme}
+              className={`theme-img ${storyType === id ? "selected" : ""}`}
+              src={`/assets/${id}.png`}
+              alt={id}
               loading="lazy"
               style={{
                 cursor: "pointer",
-                border: storyType === theme ? "3px solid blue" : "none",
+                border: storyType === id ? "3px solid blue" : "none",
               }}
-              onClick={() => setStoryType(theme)}
+              onClick={() => setStoryType(id)}
             />
-          )
-        )}
+            <h2 style={{ marginTop: "8px"}}>{label}</h2>
+          </div>
+        ))}
       </div>
 
       <Button
@@ -147,7 +162,7 @@ function MainPage() {
             backgroundColor: "#f7c120",
             color: "#FFF",
             cursor: "not-allowed",
-            opacity:0.5
+            opacity: 0.5,
           },
         }}
         onClick={handleGenerate}
